@@ -3,3 +3,8 @@ flask
 python-dotenv
 PyNaCl
 dnspython
+json
+requests
+sqlite3
+itertools
+aiosqlite

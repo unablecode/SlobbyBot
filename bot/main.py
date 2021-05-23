@@ -72,11 +72,14 @@ async def suggest(ctx, *, message):
 	guild1 = str(ctx.guild.id)
 	if guild1 == 742960432225976342:
 		channel = client.get_channel(839252569260032011)
+		await channel.send(message)
 	elif guild1 == 745189311770656808:
 		channel = client.get_channel(845770429469294632)
+		await channel.send(message)
 	elif guild1 == 780893031149731842:
 		channel1 = client.get_channel(817250080142655489)
-	await channel.send(message)
+		await channel.send(message)
+	
   
 @client.command(pass_context=True, help="enable afk role")
 async def afk_on(ctx):

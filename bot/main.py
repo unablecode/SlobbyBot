@@ -53,11 +53,11 @@ async def on_member_join(member):
   #db[sender_id] = 0
   member = ctx.author
   role_members = discord.utils.get(ctx.guild.roles, name='Level 1')
-  with open('users.json', 'r') as f:
+  with open('bot/users.json', 'r') as f:
     users = json.load(f)
     await update_data(users, member)
 
-    with open('users.json', 'w') as f:
+    with open('bot/users.json', 'w') as f:
       json.dump(users, f)
 
 
@@ -65,94 +65,7 @@ async def on_member_join(member):
   await member.create_dm()
   await member.dm_channel.send(f'Hi {member.name}, welcome to my Discord server!')
 
-
-@client.command()
-async def clear_data(ctx):
-  role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
-  if role in ctx.author.roles:
-    realms = sqlite3.connect('realm.db')
-    curs = realms.cursor()
-    curs.execute('DROP table realms')
-    curs.execute('CREATE TABLE realms(name, realm_name)')
-    realms.commit()
-    await ctx.send("Database cleared")
-  else:
-    embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
-    await ctx.send(embed=embed)
-@client.command()
-async def view_realms(ctx):
-  realms = sqlite3.connect('realm.db')
-  curs = realms.cursor()
-  curs.execute("SELECT realm_name FROM realms")
-  rows = curs.fetchall()
-  realms.commit()
-  realms = sqlite3.connect('realm.db')
-  curs = realms.cursor()
-  curs.execute("SELECT name FROM realms")
-  names = curs.fetchall()
-  realms.commit()
-  realmlist = []
-  namelist = []
-  for row in rows:
-    string = str(row)
-    without = string.translate({ord('('): None})
-    with2 = without.translate({ord(')'): None})
-    realmlist.append(str(with2))
-  for row in names:
-    string = str(row)
-    without = string.translate({ord('('): None})
-    with2 = without.translate({ord(')'): None})
-    with2 = with2.translate({ord(','): None})
-    with2 = with2.translate({ord("'"): None})
-    print(with2)
-    namelist.append(str(with2))
-  amount = len(realmlist)
-  if amount == 0:
-    embed = discord.Embed(title="No applications found", color=0xff00f6) 
-    await ctx.send(embed=embed)
-    return
-  else:
-    for idx, word in enumerate(realmlist):
-      splitlist = realmlist[idx].split(",")
-      del splitlist[0]
-      del splitlist[4]
-      print(splitlist)
-      new = splitlist[3].translate({ord("'"): None})
-      splitlist[3] = new
-      present = "Realm Name: (" + splitlist[0] + ") OP's: (" + splitlist[1] + ") Time Active So Far: (" + splitlist[2] + ") Staying Active?: (" + splitlist[3] + ")"
-      embed = discord.Embed(title=namelist[idx], description=present, color=0xff00f6) 
-      await ctx.send(embed=embed)
-
   
-@client.command(pass_context=True)
-async def application(ctx):
-  name = ctx.author
-  await name.create_dm()
-  await name.dm_channel.send(f'Please type the realm name you want to advertise:')
-  def check(msg):
-        return msg.author == ctx.author and msg.channel == name.dm_channel
-  msg = await client.wait_for("message", check=check)
-  realm_name = str(msg.content)
-  await name.create_dm()
-  await name.dm_channel.send("Please type a list of the OP's of the realm seperated by (;):")
-  msg = await client.wait_for("message", check=check)
-  op_list = str(msg.content)
-  await name.create_dm()
-  await name.dm_channel.send("How long has this realm been active for?:")
-  msg = await client.wait_for("message", check=check)
-  active_long = str(msg.content)
-  await name.create_dm()
-  await name.dm_channel.send("Is this realm going to be active?:")
-  msg = await client.wait_for("message", check=check)
-  active = str(msg.content)
-  namestr = str(ctx.author)
-  questions = [",", realm_name, ",", op_list, ",", active_long, ",", active]
-  questions = listToString(questions)
-  realms = sqlite3.connect('realm.db')
-  curs = realms.cursor()
-  curs.execute('insert into realms values (?,?)', (namestr, questions))
-  realms.commit()
-  await name.dm_channel.send("Request sent to database!")
 
 @client.command()
 async def suggest(ctx, *, message):
@@ -197,8 +110,8 @@ async def add_role(ctx, *, role_add):
 
 @client.command()
 async def commands(ctx):
-  member_command_list = "add_role (role), afk_off, afk_on, say [](make the bot say something), application, suggest"
-  admin_command_list = "mute [@user], unmute[@user], deletechannel [channel name], warn [@user] [message to send], clearwarnings[@user], checkwarnings[@user], ban[@user], kick[@user], clear_data (clears realm application database), view_realms (view realm application database)"
+  member_command_list = "add_role (role), afk_off, afk_on, say [](make the bot say something), suggest"
+  admin_command_list = "mute [@user], unmute[@user], deletechannel [channel name], warn [@user] [message to send], clearwarnings[@user], checkwarnings[@user], ban[@user], kick[@user]"
   embed = discord.Embed(title="Info", description="Note if a word is in brackets you don't have to write the brackets in the command", color=0xff00f6) 
   await ctx.send(embed=embed)
   embed = discord.Embed(title="Member Commands", description=member_command_list, color=0xff00f6) 
@@ -260,7 +173,7 @@ async def warn(ctx, member: discord.Member, *, reason):
       await update_warning(users, str(ctx.author))
       if updatefunc == False:
         await add_warnings(users, str(ctx.author), reason)
-        with open('warnings.json', 'w') as f:
+        with open('bot/warnings.json', 'w') as f:
           json.dump(users, f)
     await member.create_dm()
     await member.dm_channel.send(f'This is a warning for {reason} sent by {ctx.author}')
@@ -291,13 +204,13 @@ async def clearwarnings(ctx, member: discord.Member):
   auth = str(ctx.author)
   role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
   if role in ctx.author.roles:
-    with open('warnings.json', 'r') as f:
+    with open('bot/warnings.json', 'r') as f:
       users = json.load(f)
       await update_warning(users, str(ctx.author))
       if updatefunc == False:
         users[f'{auth}']['warnings'] = 0
         users[f'{auth}']['reasons'] = ""
-        with open('warnings.json', 'w') as f:
+        with open('bot/warnings.json', 'w') as f:
           json.dump(users, f)
           await member.create_dm()
           await member.dm_channel.send('Your warnings have been cleared!')
@@ -311,7 +224,7 @@ async def clearwarnings(ctx, member: discord.Member):
 @client.command()
 async def checkwarnings(ctx, member: discord.Member):
     auth = str(ctx.author)
-    with open('warnings.json', 'r') as f:
+    with open('bot/warnings.json', 'r') as f:
       users = json.load(f)
       await update_warning(users, str(ctx.author))
       if updatefunc == False:
@@ -391,25 +304,25 @@ async def on_message(message):
     else:
       guild1 = str(message.guild.name)
       if guild1 == "Catgalactic Hangout/Support Server":
-        with open('users.json', 'r') as f:
+        with open('bot/users.json', 'r') as f:
           users = json.load(f)
           await update_data(users, message.author)
           if updatefunc == False:
             await add_experience(users, message.author, 5)
             await level_up(users, message.author, message)
-          with open('users.json', 'w') as f:
+          with open('bot/users.json', 'w') as f:
             json.dump(users, f)
       elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":
-        with open('users2.json', 'r') as f:
+        with open('bot/users2.json', 'r') as f:
           users = json.load(f)
           await update_data(users, message.author)
           if updatefunc == False:
             await add_experience(users, message.author, 5)
             await level_up(users, message.author, message)
-          with open('users2.json', 'w') as f:
+          with open('bot/users2.json', 'w') as f:
             json.dump(users, f)
       elif guild1 == "M͎i͎n͎e͎c͎r͎a͎f͎t͎ H͎u͎b͎ H͎o͎t͎e͎l͎":
-        with open('users3.json', 'r') as f:
+        with open('bot/users3.json', 'r') as f:
           users = json.load(f)
           await update_data(users, message.author)
           if updatefunc == False:

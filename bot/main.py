@@ -119,7 +119,7 @@ async def add_role(ctx, *, role_add):
 
 @client.command()
 async def commands(ctx):
-  member_command_list = "add_role (role), afk_off, afk_on, say [](make the bot say something), suggest"
+  member_command_list = "add_role (role), afk_off, afk_on, say [](make the bot say something), suggest [](server suggestion here)"
   admin_command_list = "mute [@user], unmute[@user], deletechannel [channel name], warn [@user] [message to send], clearwarnings[@user], checkwarnings[@user], ban[@user], kick[@user]"
   embed = discord.Embed(title="Info", description="Note if a word is in brackets you don't have to write the brackets in the command", color=0xff00f6) 
   await ctx.send(embed=embed)

@@ -6,3 +6,4 @@ dnspython
 requests
 aiosqlite
 bs4
+mysql-connector-python

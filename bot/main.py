@@ -7,7 +7,7 @@ from discord.ext import commands
 from discord.utils import get
 import requests
 import aiosqlite
-
+from bs4 import BeautifulSoup
 import json
 import sqlite3
 from itertools import islice
@@ -96,9 +96,13 @@ async def say(ctx, *, message):
 @client.command()
 async def dashboard(ctx):
 	r =requests.get('https://Catgalatic-Dashboard.loganpollack.repl.co')
+	soup = BeautifulSoup(r.content, 'html.parser')
 	await ctx.send(r.text)
 	await ctx.send(r.headers)
 	await ctx.send(r.status_code)
+	
+	
+	
 @client.command(pass_context=True, help="disable afk role")
 async def afk_off(ctx):
   member = ctx.author

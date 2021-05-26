@@ -15,7 +15,17 @@ client = commands.Bot(command_prefix='&')
 client2 = discord.Client()
 memberlist = []
 updatefunc = False
-
+from getpass import getpass
+from mysql.connector import connect, Error
+try:
+    with connect(
+        host="sql103.epizy.com ",
+        user="epiz_28407868",
+        password="5P8RMUURN3Ps",
+    ) as connection:
+        print(connection)
+except Error as e:
+    print(e)
 def isPower (x, y):
      
     # The only power of 1

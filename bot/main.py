@@ -186,7 +186,7 @@ async def unmute(ctx, member: discord.Member):
 async def warn(ctx, member: discord.Member, *, reason):
   role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
   if role in ctx.author.roles:
-    with open('warnings.json', 'r') as f:
+    with open('bot/warnings.json', 'r') as f:
       users = json.load(f)
       await update_warning(users, str(ctx.author))
       if updatefunc == False:

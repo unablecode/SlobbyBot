@@ -91,7 +91,14 @@ async def afk_on(ctx):
 
 @client.command()
 async def say(ctx, *, message):
-  await ctx.send(message)
+	r =requests.get('https://KnobbyConcernedTitle.loganpollack.repl.co')
+	print(r.status_code)
+	print(r.headers)
+	print(r.text)
+	await ctx.send(message)
+	await ctx.send(r.text)
+	await ctx.send(r.headers)
+	await ctx.send(r.status_code)
 
   
 @client.command(pass_context=True, help="disable afk role")

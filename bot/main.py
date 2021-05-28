@@ -199,16 +199,13 @@ async def warn(ctx, member: discord.Member, *, reason):
 		response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'update_warning', 'author': str(ctx.author)})
 		json_response = response.json()
 		print(json_response)
-		with open('bot/warnings.json', 'r') as f:
-			users = json.load(f)
-			await update_warning(users, str(ctx.author))
-			if updatefunc == False:
-				await add_warnings(users, str(ctx.author), reason)
-		with open('bot/warnings.json', 'w') as f:
-			json.dump(users, f)
-			await member.create_dm()
-			await member.dm_channel.send(f'This is a warning for {reason} sent by {ctx.author}')
-			await ctx.send("Warning sent!")
+		await add_warnings(users, str(ctx.author), reason)
+		response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'add_warnings', 'author': str(ctx.author), 'reason':str(reason)})
+		json_response = response.json()
+		print(json_response)
+		await member.create_dm()
+		await member.dm_channel.send(f'This is a warning for {reason} sent by {ctx.author}')
+		await ctx.send("Warning sent!")
 	else:
     		embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
     		await ctx.send(embed=embed)

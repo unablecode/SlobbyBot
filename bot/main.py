@@ -297,7 +297,7 @@ async def on_message(message):
               users = json.load(f)
               await update_data(users, message.author)
               if updatefunc == False:
-            	  await add_experience(users, message.author, 5)
+            	await add_experience(users, message.author, 5)
                 await level_up(users, message.author, message)
                 with open('bot/users.json', 'w') as f:
                   json.dump(users, f)

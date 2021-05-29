@@ -57,14 +57,11 @@ async def on_member_join(member):
   	with open('bot/users.json', 'r') as f:
     		users = json.load(f)
     		await update_data(users, member)
-
-    	with open('bot/users.json', 'w') as f:
-      		json.dump(users, f)
-
-
-  	await member.add_roles(role_members)
-  	await member.create_dm()
-  	await member.dm_channel.send(f'Hi {member.name}, welcome to my Discord server!')
+    		with open('bot/users.json', 'w') as f:
+      			json.dump(users, f)
+			await member.add_roles(role_members)
+  			await member.create_dm()
+  			await member.dm_channel.send(f'Hi {member.name}, welcome to my Discord server!')
 
   
 

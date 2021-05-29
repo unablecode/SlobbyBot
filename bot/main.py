@@ -288,18 +288,11 @@ async def on_message(message):
 			guild1 = str(message.guild.name)
 			if guild1 == "Catgalactic Hangout/Support Server":
 				response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'update_data', 'author': auth})
-				json_response = response.json()
-				print(json_response)
-				updatefunc = bool(json_response)
-				print(updatefunc)
-					#ith open('bot/users.json', 'r') as f:
-						#users = json.load(f)
-						#await update_data(users, message.author)
-						#if updatefunc == False:
-							#await add_experience(users, message.author, 5)
-							#await level_up(users, message.author, message)
-							#with open('bot/users.json', 'w') as f:
-								#json.dump(users, f)
+				await add_experience(auth)
+				await level_up(auth)
+							
+							
+							
 			elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":
 				with open('bot/users2.json', 'r') as f:
 					users = json.load(f)
@@ -328,68 +321,64 @@ async def update_data(users, user):
         updatefunc = True
 
 
-async def add_experience(users, user, exp):
-    users[f'{user.id}']['experience'] += exp
+async def add_experience(user):
+	response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'add_experience', 'author': user})
 
 
-async def level_up(users, user, message):
-    experience = users[f'{user.id}']['experience']
-    lvl_start = users[f'{user.id}']['level']
-    lvl_end = int(experience ** (1 / 5))
-    guild1 = str(message.guild.name)
-    if guild1 == "Catgalactic Hangout/Support Server":
-      spam_chat = client.get_channel(836702503311638589)
-      
-    elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":
-      spam_chat = client.get_channel(842544786506121247)
-    elif guild1 == "M͎i͎n͎e͎c͎r͎a͎f͎t͎ H͎u͎b͎ H͎o͎t͎e͎l͎":
-      spam_chat = client.get_channel(834483739459059722)
-    if lvl_start < lvl_end:
-        await spam_chat.send(f'{user.mention} has leveled up to level {lvl_end}')
+async def level_up(user):
+    	response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'level_up', 'author': auth})
+	output = response.json()
+	lvl_end = output[1]
+	lvl_start = output[0]
+	if guild1 == "Catgalactic Hangout/Support Server":
+		spam_chat = client.get_channel(836702503311638589)
+	elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":
+		spam_chat = client.get_channel(842544786506121247)
+	if lvl_start < lvl_end:
+		await spam_chat.send(f'{user.mention} has leveled up to level {lvl_end}')
         if lvl_end == 1:
-          role = discord.utils.get(user.guild.roles, name="Level 1")
-          await user.add_roles(role)
+		role = discord.utils.get(user.guild.roles, name="Level 1")
+		await user.add_roles(role)
         elif lvl_end == 2:
-          previous = discord.utils.get(user.guild.roles, name="Level 1")
-          role = discord.utils.get(user.guild.roles, name="Level 2")
-          await user.remove_roles(previous)
-          await user.add_roles(role)
+        	previous = discord.utils.get(user.guild.roles, name="Level 1")
+        	role = discord.utils.get(user.guild.roles, name="Level 2")
+        	await user.remove_roles(previous)
+        	await user.add_roles(role)
         elif lvl_end == 3:
-          previous = discord.utils.get(user.guild.roles, name="Level 2")
-          await user.remove_roles(previous)
-          role = discord.utils.get(user.guild.roles, name="Level 3")
-          await user.add_roles(role)
+        	previous = discord.utils.get(user.guild.roles, name="Level 2")
+        	await user.remove_roles(previous)
+        	role = discord.utils.get(user.guild.roles, name="Level 3")
+        	await user.add_roles(role)
         elif lvl_end == 4:
-          previous = discord.utils.get(user.guild.roles, name="Level 3")
-          await user.remove_roles(previous)
-          role = discord.utils.get(user.guild.roles, name="Level 4")
-          await user.add_roles(role)
+        	previous = discord.utils.get(user.guild.roles, name="Level 3")
+        	await user.remove_roles(previous)
+        	role = discord.utils.get(user.guild.roles, name="Level 4")
+        	await user.add_roles(role)
         elif lvl_end == 5:
-          previous = discord.utils.get(user.guild.roles, name="Level 4")
-          await user.remove_roles(previous)
-          role = discord.utils.get(user.guild.roles, name="Level 5")
-          await user.add_roles(role)
+        	previous = discord.utils.get(user.guild.roles, name="Level 4")
+        	await user.remove_roles(previous)
+        	role = discord.utils.get(user.guild.roles, name="Level 5")
+        	await user.add_roles(role)
         elif lvl_end == 6:
-          previous = discord.utils.get(user.guild.roles, name="Level 5")
-          await user.remove_roles(previous)
-          role = discord.utils.get(user.guild.roles, name="Level 6")
-          await user.add_roles(role)
+        	previous = discord.utils.get(user.guild.roles, name="Level 5")
+        	await user.remove_roles(previous)
+        	role = discord.utils.get(user.guild.roles, name="Level 6")
+        	await user.add_roles(role)
         elif lvl_end == 7:
-          previous = discord.utils.get(user.guild.roles, name="Level 6")
-          await user.remove_roles(previous)
-          role = discord.utils.get(user.guild.roles, name="Level 7")
-          await user.add_roles(role)
+        	previous = discord.utils.get(user.guild.roles, name="Level 6")
+        	await user.remove_roles(previous)
+        	role = discord.utils.get(user.guild.roles, name="Level 7")
+        	await user.add_roles(role)
         elif lvl_end == 8:
-          previous = discord.utils.get(user.guild.roles, name="Level 7")
-          await user.remove_roles(previous)
-          role = discord.utils.get(user.guild.roles, name="Level 8")
-          await user.add_roles(role)
+        	previous = discord.utils.get(user.guild.roles, name="Level 7")
+        	await user.remove_roles(previous)
+        	role = discord.utils.get(user.guild.roles, name="Level 8")
+        	await user.add_roles(role)
         elif lvl_end == 9:
-          previous = discord.utils.get(user.guild.roles, name="Level 8")
-          await user.remove_roles(previous)
-          role = discord.utils.get(user.guild.roles, name="Level 9")
-          await user.add_roles(role)
-        users[f'{user.id}']['level'] = lvl_end
+        	previous = discord.utils.get(user.guild.roles, name="Level 8")
+        	await user.remove_roles(previous)
+        	role = discord.utils.get(user.guild.roles, name="Level 9")
+        	await user.add_roles(role)
 
 
 

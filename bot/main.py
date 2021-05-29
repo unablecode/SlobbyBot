@@ -328,8 +328,10 @@ async def add_experience(user):
 async def level_up(user, username):
 	response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'level_up', 'author': username})
 	output = response.json()
-	lvl_end = output['end']	
-	lvl_start = output['start']
+	lvl_end = int(output['end'])
+	lvl_start = int(output['start'])
+	await member.create_dm()
+	await member.dm_channel.send(f'{lvl_end} is the end and {lvl_start} is the start')
 	if lvl_start < lvl_end:
 		await member.create_dm()
 		await member.dm_channel.send(f'You are now level {lvl_end}!')

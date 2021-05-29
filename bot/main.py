@@ -330,8 +330,6 @@ async def level_up(user, username):
 	output = response.json()
 	lvl_end = int(output['end'])
 	lvl_start = int(output['start'])
-	await user.create_dm()
-	await user.dm_channel.send(f'{lvl_end} is the end and {lvl_start} is the start')
 	if lvl_start < lvl_end:
 		await user.create_dm()
 		await user.dm_channel.send(f'You are now level {lvl_end}!')

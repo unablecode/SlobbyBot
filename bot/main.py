@@ -198,8 +198,7 @@ async def warn(ctx, member: discord.Member, *, reason):
 	if role in ctx.author.roles:
 		response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'update_warning', 'author': str(ctx.author)})
 		json_response = response.json()
-		print(json_response)
-		await add_warnings(users, str(ctx.author), reason)
+		await ctx.send(json_response)
 		response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'add_warnings', 'author': str(ctx.author), 'reason':str(reason)})
 		json_response = response.json()
 		print(json_response)
@@ -210,54 +209,33 @@ async def warn(ctx, member: discord.Member, *, reason):
     		embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
     		await ctx.send(embed=embed)
 		
-async def add_warnings(users, auth, reason):
-  users[f'{auth}']['warnings'] += 1
-  reasons_list=users[f'{auth}']['reasons']
-  reasons_list = reasons_list + str(reason) + ", "
-  users[f'{auth}']['reasons'] = reasons_list
-  if users[f'{auth}']['warnings'] == "5":
-    user = await client.fetch_user(471332393870163969)
-    await user.create_dm()
-    await user.dm_channel.send(f'Alert! User {auth} now has 5 warnings! The reasons are {reasons_list}')
 
-async def update_warning(users, auth):
-  if not f'{auth}' in users:
-        users[f'{auth}'] = {}
-        users[f'{auth}']["warnings"] = 0
-        users[f"{auth}"]["reasons"] = " "
-        updatefunc = True
 
 @client.command()
 async def clearwarnings(ctx, member: discord.Member):
-  auth = str(ctx.author)
-  role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
-  if role in ctx.author.roles:
-    with open('bot/warnings.json', 'r') as f:
-      users = json.load(f)
-      await update_warning(users, str(ctx.author))
-      if updatefunc == False:
-        users[f'{auth}']['warnings'] = 0
-        users[f'{auth}']['reasons'] = ""
-        with open('bot/warnings.json', 'w') as f:
-          json.dump(users, f)
-          await member.create_dm()
-          await member.dm_channel.send('Your warnings have been cleared!')
-          await ctx.send(f'Warnings cleared for {auth}')
-  else:
-    embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
-    await ctx.send(embed=embed)
+	auth = str(ctx.author)
+	role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
+	if role in ctx.author.roles:
+		response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'clearwarnings', 'author': str(ctx.author)})
+		json_response = response.json()
+		print(json_response)
+		await member.create_dm()
+        	await member.dm_channel.send('Your warnings have been cleared!')
+        	await ctx.send(f'Warnings cleared for {auth}')
+	else:
+    		embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
+    		await ctx.send(embed=embed)
 		
 
 
 @client.command()
 async def checkwarnings(ctx, member: discord.Member):
-    auth = str(ctx.author)
-    with open('bot/warnings.json', 'r') as f:
-      users = json.load(f)
-      await update_warning(users, str(ctx.author))
-      if updatefunc == False:
-        reasons_list=users[f'{auth}']['reasons']
-        warningsnum = users[f'{auth}']['warnings']
+	auth = str(ctx.author)
+	response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'update_warning', 'author': str(ctx.author)})
+	json_response = response.json()
+	print(json_response)
+	warningsnum = json_response['number']
+	reasons_list = json_respons['reasons']
         embed = discord.Embed(description=f'This member has {warningsnum} warnings for {reasons_list}',color = 0xf54242)
         await ctx.send(embed=embed)
       else:

@@ -287,7 +287,7 @@ async def on_message(message):
 		else:
 			guild1 = str(message.guild.name)
 			if guild1 == "Catgalactic Hangout/Support Server":
-				response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'update_data', 'author': str(ctx.author)})
+				response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'update_data', 'author': auth})
 				json_response = response.json()
 				print(json_response)
 				updatefunc = bool(json_response)

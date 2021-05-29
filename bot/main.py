@@ -268,21 +268,20 @@ async def on_member_join(member: discord.Member):
 
 @client.event
 async def on_message(message):
-  member = message.author
-  auth = str(message.author)
-  if auth not in memberlist:
-    memberlist.append(auth)
-    #db[auth] = 0
+	member = message.author
+	auth = str(message.author)
+	if auth not in memberlist:
+		memberlist.append(auth)
+  #db[auth] = 0
+  	mescon = str(message.content)
+  	mescon = mescon.lower()
   
-  mescon = str(message.content)
-  mescon = mescon.lower()
-  
-  data = [mescon]
+  	data = [mescon]
   #result = ml.classifiers.classify(model_id, data)
   #print(result.body)
-  bad_words = ["cunt", "bloody hell", "crikey", "choad", "wanker", "twat", "pussy", "nigga", "gay"]
-  res = [ele for ele in bad_words if(ele in mescon)]
-  result = False
+  	bad_words = ["cunt", "bloody hell", "crikey", "choad", "wanker", "twat", "pussy", "nigga", "gay"]
+  	res = [ele for ele in bad_words if(ele in mescon)]
+  	result = False
   #if result == True:
     #await message.channel.send("You have said a swear word. It will now be deleted") 
     #await message.delete()
@@ -310,7 +309,7 @@ async def on_message(message):
             	#await level_up(users, message.author, message)
           		#with open('bot/users2.json', 'w') as f:
             	  #json.dump(users, f)
-      
+	
 	await client.process_commands(message)
 
 

@@ -281,17 +281,17 @@ async def on_message(message):
 		await message.channel.send("You have said a swear word. It will now be deleted") 
 		await message.delete()
 		print(message.content)
-		if message.author.bot == False:
-			if isinstance(message.channel,discord.channel.DMChannel):
-				return
-			else:
-				guild1 = str(message.guild.name)
-				if guild1 == "Catgalactic Hangout/Support Server":
-					response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'update_data', 'author': str(ctx.author)})
-					json_response = response.json()
-					print(json_response)
-					updatefunc = bool(json_response)
-					print(updatefunc)
+	if message.author.bot == False:
+		if isinstance(message.channel,discord.channel.DMChannel):
+			return
+		else:
+			guild1 = str(message.guild.name)
+			if guild1 == "Catgalactic Hangout/Support Server":
+				response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'update_data', 'author': str(ctx.author)})
+				json_response = response.json()
+				print(json_response)
+				updatefunc = bool(json_response)
+				print(updatefunc)
 					#ith open('bot/users.json', 'r') as f:
 						#users = json.load(f)
 						#await update_data(users, message.author)
@@ -300,15 +300,15 @@ async def on_message(message):
 							#await level_up(users, message.author, message)
 							#with open('bot/users.json', 'w') as f:
 								#json.dump(users, f)
-				elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":
-					with open('bot/users2.json', 'r') as f:
-						users = json.load(f)
-						await update_data(users, message.author)
-						if updatefunc == False:
-							await add_experience(users, message.author, 5)
-							await level_up(users, message.author, message)
-							with open('bot/users2.json', 'w') as f:
-								json.dump(users, f)
+			elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":
+				with open('bot/users2.json', 'r') as f:
+					users = json.load(f)
+					await update_data(users, message.author)
+					if updatefunc == False:
+						await add_experience(users, message.author, 5)
+						await level_up(users, message.author, message)
+						with open('bot/users2.json', 'w') as f:
+							json.dump(users, f)
 	
 	await client.process_commands(message)
 

@@ -55,8 +55,8 @@ async def on_member_join(member):
   	member = ctx.author
   	role_members = discord.utils.get(ctx.guild.roles, name='Level 1')
   	with open('bot/users.json', 'r') as f:
-    	users = json.load(f)
-    	await update_data(users, member)
+    		users = json.load(f)
+    		await update_data(users, member)
 
     	with open('bot/users.json', 'w') as f:
       		json.dump(users, f)

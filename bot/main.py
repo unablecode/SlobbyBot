@@ -289,7 +289,7 @@ async def on_message(message):
 			if guild1 == "Catgalactic Hangout/Support Server":
 				response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'update_data', 'author': auth})
 				await add_experience(auth)
-				await level_up(auth, guild1)
+				await level_up(member, auth)
 							
 							
 							
@@ -325,17 +325,14 @@ async def add_experience(user):
 	response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'add_experience', 'author': user})
 
 
-async def level_up(user, guild1):
-	response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'level_up', 'author': user})
+async def level_up(user, username):
+	response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'level_up', 'author': username})
 	output = response.json()
 	lvl_end = output['end']	
 	lvl_start = output['start']
-	if guild1 == "Catgalactic Hangout/Support Server":
-		spam_chat = client.get_channel(836702503311638589)
-	elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":
-		spam_chat = client.get_channel(842544786506121247)
 	if lvl_start < lvl_end:
-		await spam_chat.send(f'{user.mention} has leveled up to level {lvl_end}')
+		await member.create_dm()
+    		await member.dm_channel.send(f'You are now level {lvl_end}!')
 		if lvl_end == 1:
 			role = discord.utils.get(user.guild.roles, name="Level 1")
 			await user.add_roles(role)

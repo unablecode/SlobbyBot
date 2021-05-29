@@ -336,7 +336,7 @@ async def level_up(user):
 		spam_chat = client.get_channel(842544786506121247)
 	if lvl_start < lvl_end:
 		await spam_chat.send(f'{user.mention} has leveled up to level {lvl_end}')
-        	if lvl_end == 1:
+		if lvl_end == 1:
 			role = discord.utils.get(user.guild.roles, name="Level 1")
 			await user.add_roles(role)
 		elif lvl_end == 2:

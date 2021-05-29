@@ -272,16 +272,15 @@ async def on_message(message):
 	auth = str(message.author)
 	if auth not in memberlist:
 		memberlist.append(auth)
-  #db[auth] = 0
-  	mescon = str(message.content)
-  	mescon = mescon.lower()
-  
-  	data = [mescon]
-  #result = ml.classifiers.classify(model_id, data)
-  #print(result.body)
-  	bad_words = ["cunt", "bloody hell", "crikey", "choad", "wanker", "twat", "pussy", "nigga", "gay"]
-  	res = [ele for ele in bad_words if(ele in mescon)]
-  	result = False
+  	#db[auth] = 0
+	mescon = str(message.content)
+	mescon = mescon.lower()
+	data = [mescon]
+  	#result = ml.classifiers.classify(model_id, data)
+  	#print(result.body)
+	bad_words = ["cunt", "bloody hell", "crikey", "choad", "wanker", "twat", "pussy", "nigga", "gay"]
+	res = [ele for ele in bad_words if(ele in mescon)]
+	result = False
   #if result == True:
     #await message.channel.send("You have said a swear word. It will now be deleted") 
     #await message.delete()

@@ -50,18 +50,18 @@ async def on_ready():
 
 @client.event
 async def on_member_join(member):
-  	sender_id = str(ctx.author)
+  sender_id = str(ctx.author)
   	#db[sender_id] = 0
-  	member = ctx.author
-  	role_members = discord.utils.get(ctx.guild.roles, name='Level 1')
-  	with open('bot/users.json', 'r') as f:
-    		users = json.load(f)
-    		await update_data(users, member)
-    		with open('bot/users.json', 'w') as f:
-      			json.dump(users, f)
-			await member.add_roles(role_members)
-  			await member.create_dm()
-  			await member.dm_channel.send(f'Hi {member.name}, welcome to my Discord server!')
+  member = ctx.author
+  role_members = discord.utils.get(ctx.guild.roles, name='Level 1')
+  with open('bot/users.json', 'r') as f:
+    users = json.load(f)
+    await update_data(users, member)
+    with open('bot/users.json', 'w') as f:
+      json.dump(users, f)
+      await member.add_roles(role_members)
+      await member.create_dm()
+      await member.dm_channel.send(f'Hi {member.name}, welcome to my Discord server!')
 
   
 
@@ -103,26 +103,26 @@ async def dashboard(ctx):
 	
 @client.command(pass_context=True, help="disable afk role")
 async def afk_off(ctx):
-	member = ctx.author
-  	role_members = discord.utils.get(ctx.guild.roles, name='Members')
-  	role_muted = discord.utils.get(ctx.guild.roles, name='AFK')
-  	await member.remove_roles(role_muted)
-  	await member.add_roles(role_members)
-  	await ctx.send("You are not afk anymore!")
+  member = ctx.author
+  role_members = discord.utils.get(ctx.guild.roles, name='Members')
+  role_muted = discord.utils.get(ctx.guild.roles, name='AFK')
+  await member.remove_roles(role_muted)
+  await member.add_roles(role_members)
+  await ctx.send("You are not afk anymore!")
   
 @client.command(pass_context = True)
 async def add_role(ctx, *, role_add):
-  	user = ctx.author
-  	if "[!]" in role_add:
-    	embed = discord.Embed(title="Permission Denied.", description="You can't add an administrator role to yourself", color=0xff00f6) 
-    	await ctx.send(embed=embed)
-  	else:
-    	try:
-      		role_get = discord.utils.get(ctx.guild.roles, name=str(role_add))
-      		await user.add_roles(role_get)
-      		await ctx.send(f"Role added to {user}")
-    	except AttributeError:
-      		await ctx.send("That role doesn't exist!")
+  user = ctx.author
+  if "[!]" in role_add:
+    embed = discord.Embed(title="Permission Denied.", description="You can't add an administrator role to yourself", color=0xff00f6) 
+    await ctx.send(embed=embed)
+  else:
+    try:
+      role_get = discord.utils.get(ctx.guild.roles, name=str(role_add))
+      await user.add_roles(role_get)
+      await ctx.send(f"Role added to {user}")
+    except AttributeError:
+      await ctx.send("That role doesn't exist!")
 
 @client.command()
 async def commands(ctx):
@@ -138,47 +138,47 @@ async def commands(ctx):
 
 @client.command(pass_context=True, help="mute a server member so they can't send messages")
 async def mute(ctx, member: discord.Member):
-  	role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
-  	if role in ctx.author.roles:
-    	role_members = discord.utils.get(ctx.guild.roles, name='Members')
-    	role_muted = discord.utils.get(ctx.guild.roles, name='Muted')
-    	await member.remove_roles(role_members)
-    	await member.add_roles(role_muted)
-    	await ctx.send("User Was Muted")
-    	print(f'{member} was muted')
-  	else:
-    	embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
-    	await ctx.send(embed=embed)
+  role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
+  if role in ctx.author.roles:
+    role_members = discord.utils.get(ctx.guild.roles, name='Members')
+    role_muted = discord.utils.get(ctx.guild.roles, name='Muted')
+    await member.remove_roles(role_members)
+    await member.add_roles(role_muted)
+    await ctx.send("User Was Muted")
+    print(f'{member} was muted')
+  else:
+    embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
+    await ctx.send(embed=embed)
 
 @client.command(name='deletechannel', help='delete a channel with the specified name')
 async def deletechannel(ctx, channel_name):
    # check if the channel exists
-  	role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
-  	if role in ctx.author.roles:
-    	existing_channel = discord.utils.get(guild.channels, name=channel_name)
+  role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
+  if role in ctx.author.roles:
+    existing_channel = discord.utils.get(guild.channels, name=channel_name)
    # if the channel exists
-    	if existing_channel is not None:
-      		await existing_channel.delete()
+    if existing_channel is not None:
+      await existing_channel.delete()
    # if the channel does not exist, inform the user
-    	else:
-      		await ctx.send(f'No channel named, "{channel_name}", was found')
-  	else:
-    	embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
-    	await ctx.send(embed=embed)
+    else:
+      await ctx.send(f'No channel named, "{channel_name}", was found')
+  else:
+    embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
+    await ctx.send(embed=embed)
 
 @client.command(pass_context=True)
 async def unmute(ctx, member: discord.Member):
-  	role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
-  	if role in ctx.author.roles:
-    	role_members = discord.utils.get(ctx.guild.roles, name='Members')
-    	role_muted = discord.utils.get(ctx.guild.roles, name='Muted')
-    	await member.remove_roles(role_muted)
-    	await member.add_roles(role_members)
-    	await ctx.send("User Was Unmuted")
-    	print(f'{member} was unmuted')
-  	else:
-    	embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
-    	await ctx.send(embed=embed)
+  role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
+  if role in ctx.author.roles:
+    role_members = discord.utils.get(ctx.guild.roles, name='Members')
+    role_muted = discord.utils.get(ctx.guild.roles, name='Muted')
+    await member.remove_roles(role_muted)
+    await member.add_roles(role_members)
+    await ctx.send("User Was Unmuted")
+    print(f'{member} was unmuted')
+  else:
+    embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
+    await ctx.send(embed=embed)
 
 @client.command()
 async def warn(ctx, member: discord.Member, *, reason):
@@ -201,115 +201,115 @@ async def warn(ctx, member: discord.Member, *, reason):
 
 @client.command()
 async def clearwarnings(ctx, member: discord.Member):
-	auth = str(ctx.author)
-	role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
-	if role in ctx.author.roles:
-		response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'clearwarnings', 'author': str(ctx.author)})
-		json_response = response.json()		
-	    await member.create_dm()
-        await member.dm_channel.send('Your warnings have been cleared!')
-        await ctx.send(f'Warnings cleared for {auth}')
-	else:
-    	embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
-    	await ctx.send(embed=embed)
+  auth = str(ctx.author)
+  role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
+  if role in ctx.author.roles:
+    response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'clearwarnings', 'author': str(ctx.author)})
+    json_response = response.json()		
+    await member.create_dm()
+    await member.dm_channel.send('Your warnings have been cleared!')
+    await ctx.send(f'Warnings cleared for {auth}')
+  else:
+    embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
+    await ctx.send(embed=embed)
 		
 
 
 @client.command()
 async def checkwarnings(ctx, member: discord.Member):
-	auth = str(ctx.author)
-	response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'update_warning', 'author': str(ctx.author)})
-	json_response = response.json()
-	print(json_response)
-	warningsnum = json_response['number']
-	reasons_list = json_respons['reasons']
-    embed = discord.Embed(description=f'This member has {warningsnum} warnings for {reasons_list}',color = 0xf54242)
-    await ctx.send(embed=embed)
+  auth = str(ctx.author)
+  response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'update_warning', 'author': str(ctx.author)})
+  json_response = response.json()
+  print(json_response)
+  warningsnum = json_response['number']
+  reasons_list = json_respons['reasons']
+  embed = discord.Embed(description=f'This member has {warningsnum} warnings for {reasons_list}',color = 0xf54242)
+  await ctx.send(embed=embed)
 	
 @client.command(pass_context=True)
 async def ban(ctx, member: discord.Member, *,reason=None, membertoban):
-	role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
-	if role in ctx.author.roles:
-    	await ban(membertoban)
-   		await ctx.send(f'User {membertoban} has been banned')
-  	else:
-    	embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
-    	await ctx.send(embed=embed)
+  role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
+  if role in ctx.author.roles:
+    await ban(membertoban)
+    await ctx.send(f'User {membertoban} has been banned')
+  else:
+    embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
+    await ctx.send(embed=embed)
     
 @client.command(pass_context=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
-  	role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
-  	if role in ctx.author.roles:
-    	await member.kick(reason=reason)
-    	await ctx.send(f'User {member} has kicked.')
-  	else:
-    	embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
-    	await ctx.send(embed=embed)
+  role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
+  if role in ctx.author.roles:
+    await member.kick(reason=reason)
+    await ctx.send(f'User {member} has kicked.')
+  else:
+    embed = discord.Embed(title="Permission Denied.", description="You don't have permission to use this command.", color=0xff00f6) 
+    await ctx.send(embed=embed)
 
 
 
 #----------------------------------EVENTS----------------------------------
 @client.event
 async def on_member_join(member: discord.Member):
-  	role = discord.utils.get(member.guild.roles, name="Level 1")
-  	guild1 = str(message.guild.name)
-  	if guild1 == "Catgalactic Hangout/Support Server":
-    	spam_chat = client.get_channel(838864866876850228)
-  	elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":
-    	spam_chat = client.get_channel(842544786506121247)
-  		await spam_chat.send(f'{member} welcome')
-  	with open('users.json', 'r') as f:
-      	users = json.load(f)
-      	await update_data(users, member)
-      	with open('users.json', 'w') as f:
-        	json.dump(users, f)
-  	await member.add_roles(role)
+  role = discord.utils.get(member.guild.roles, name="Level 1")
+  guild1 = str(message.guild.name)
+  if guild1 == "Catgalactic Hangout/Support Server":
+    spam_chat = client.get_channel(838864866876850228)
+  elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":
+    spam_chat = client.get_channel(842544786506121247)
+    await spam_chat.send(f'{member} welcome')
+    with open('users.json', 'r') as f:
+      users = json.load(f)
+      await update_data(users, member)
+      with open('users.json', 'w') as f:
+        json.dump(users, f)
+        await member.add_roles(role)
 
 
 @client.event
 async def on_message(message):
-  	member = message.author
-  	auth = str(message.author)
-  	if auth not in memberlist:
-    	memberlist.append(auth)
+  member = message.author
+  auth = str(message.author)
+  if auth not in memberlist:
+    memberlist.append(auth)
     #db[auth] = 0
   
-  	mescon = str(message.content)
-  	mescon = mescon.lower()
+  mescon = str(message.content)
+  mescon = mescon.lower()
   
-  	data = [mescon]
+  data = [mescon]
   #result = ml.classifiers.classify(model_id, data)
   #print(result.body)
-  	bad_words = ["cunt", "bloody hell", "crikey", "choad", "wanker", "twat", "pussy", "nigga", "gay"]
-  	res = [ele for ele in bad_words if(ele in mescon)]
-  	result = bool(res)
-  	if result == True:
-    	await message.channel.send("You have said a swear word. It will now be deleted") 
-    	await message.delete()
-  	print(message.content)
-  	if message.author.bot == False:
-    	if isinstance(message.channel, discord.channel.DMChannel):
-      		return
-    	else:
-      		guild1 = str(message.guild.name)
-      		if guild1 == "Catgalactic Hangout/Support Server":
-        		with open('bot/users.json', 'r') as f:
-          			users = json.load(f)
-          			await update_data(users, message.author)
-          		if updatefunc == False:
-            		await add_experience(users, message.author, 5)
-            		await level_up(users, message.author, message)
-          			with open('bot/users.json', 'w') as f:
-            			json.dump(users, f)
-      		elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":
-        		with open('bot/users2.json', 'r') as f:
-          			users = json.load(f)
-          			await update_data(users, message.author)
-          			if updatefunc == False:
-            			await add_experience(users, message.author, 5)
-            			await level_up(users, message.author, message)
-          				with open('bot/users2.json', 'w') as f:
-            			json.dump(users, f)
+  bad_words = ["cunt", "bloody hell", "crikey", "choad", "wanker", "twat", "pussy", "nigga", "gay"]
+  res = [ele for ele in bad_words if(ele in mescon)]
+  result = bool(res)
+  if result == True:
+    await message.channel.send("You have said a swear word. It will now be deleted") 
+    await message.delete()
+    print(message.content)
+    if message.author.bot == False:
+      if isinstance(message.channel,discord.channel.DMChannel):
+        return
+      else:
+      	guild1 = str(message.guild.name)
+      	if guild1 == "Catgalactic Hangout/Support Server":
+            with open('bot/users.json', 'r') as f:
+              users = json.load(f)
+              await update_data(users, message.author)
+              if updatefunc == False:
+            	  await add_experience(users, message.author, 5)
+                await level_up(users, message.author, message)
+                with open('bot/users.json', 'w') as f:
+                  json.dump(users, f)
+      	elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":
+        	with open('bot/users2.json', 'r') as f:
+          	users = json.load(f)
+          	await update_data(users, message.author)
+          	if updatefunc == False:
+            	await add_experience(users, message.author, 5)
+            	await level_up(users, message.author, message)
+          		with open('bot/users2.json', 'w') as f:
+            	  json.dump(users, f)
       
 	await client.process_commands(message)
 

@@ -328,8 +328,8 @@ async def add_experience(user):
 async def level_up(user):
 	response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'level_up', 'author': user})
 	output = response.json()
-	lvl_end = output[1]	
-	lvl_start = output[0]
+	lvl_end = output['end']	
+	lvl_start = output['start']
 	if guild1 == "Catgalactic Hangout/Support Server":
 		spam_chat = client.get_channel(836702503311638589)
 	elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":

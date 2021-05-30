@@ -4,6 +4,7 @@ import os
 #import dnspython
 import server
 from discord.ext import commands
+import time
 from discord.utils import get
 import requests
 import aiosqlite
@@ -182,6 +183,7 @@ async def unmute(ctx, member: discord.Member):
 
 @client.command()
 async def warn(ctx, member: discord.Member, *, reason):
+	time.sleep(100)
 	role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
 	if role in ctx.author.roles:
 		response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'add_warnings', 'author': str(ctx.author), 'reason':str(reason)})
@@ -198,6 +200,7 @@ async def warn(ctx, member: discord.Member, *, reason):
 
 @client.command()
 async def clearwarnings(ctx, member: discord.Member):
+  time.sleep(100)
   auth = str(ctx.author)
   role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
   if role in ctx.author.roles:
@@ -214,9 +217,10 @@ async def clearwarnings(ctx, member: discord.Member):
 
 @client.command()
 async def checkwarnings(ctx, member: discord.Member):
+  time.sleep(100)
   auth = str(ctx.author)
   mem = str(member)
-  response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'checkwarning', 'author': mem})
+  response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'checkwarning', 'author': str(member)})
   json_response = response.json()
   print(json_response)
   warningsnum = json_response[0]

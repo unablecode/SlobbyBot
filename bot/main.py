@@ -90,11 +90,6 @@ async def afk_on(ctx):
   	await ctx.send("You are now labeled as AFK. To disable it type afk_off")
 
 @client.command()
-async def say(ctx, *, message):
-	await message.delete()
-	await ctx.send(message)
-
-@client.command()
 async def dashboard(ctx):
 	r =requests.get('https://Catgalatic-Dashboard.loganpollack.repl.co')
 	soup = BeautifulSoup(r.content, 'html.parser')
@@ -275,6 +270,12 @@ async def on_message(message):
 		memberlist.append(auth)
   		#db[auth] = 0
 	mescon = str(message.content)
+	commandsay = ["&say"]
+	res1 = [ele for ele in commandsay if(ele in mescon)]
+	boolres = bool(res1)
+	if boolres == True:
+		await message.delete()
+		await message.channel.send(mescon)
 	mescon = mescon.lower()
 	data = [mescon]
   	

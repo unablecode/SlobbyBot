@@ -219,7 +219,7 @@ async def clearwarnings(ctx, member: discord.Member):
 async def checkwarnings(ctx, member: discord.Member):
   auth = str(ctx.author)
   mem = str(member)
-  response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'checkwarning', 'author': str(member)})
+  response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'checkwarnings', 'author': str(member)})
   json_response = response.json()
   print(json_response)
   warningsnum = json_response['number']

@@ -19,6 +19,11 @@ memberlist = []
 updatefunc = False
 from getpass import getpass
 listen = False
+
+@client.command(pass_conetext=True)
+async def say(ctx, *, messages):
+	await ctx.send(messages)
+	await client.delete_message(ctx.message)
 def isPower (x, y):
      
     # The only power of 1
@@ -271,14 +276,6 @@ async def on_message(message):
 		memberlist.append(auth)
   		#db[auth] = 0
 	mescon = str(message.content)
-	commandsay = ["&say"]
-	res1 = [ele for ele in commandsay if(ele in mescon)]
-	boolres = bool(res1)
-	if boolres == True:
-		mescon.replace('&', '')
-		await message.delete()
-		await message.channel.send(mescon)
-		listen = False
 	mescon = mescon.lower()
 	data = [mescon]
   	

@@ -23,7 +23,7 @@ listen = False
 @client.command(pass_conetext=True)
 async def say(ctx, *, messages):
 	await ctx.send(messages)
-	await client.delete_message(ctx.message)
+	await ctx.message.delete()
 def isPower (x, y):
      
     # The only power of 1

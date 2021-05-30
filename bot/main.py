@@ -18,7 +18,7 @@ client2 = discord.Client()
 memberlist = []
 updatefunc = False
 from getpass import getpass
-
+listen = False
 def isPower (x, y):
      
     # The only power of 1
@@ -264,6 +264,7 @@ async def on_member_join(member: discord.Member):
 
 @client.event
 async def on_message(message):
+	listen = True
 	member = message.author
 	auth = str(message.author)
 	if auth not in memberlist:
@@ -274,8 +275,10 @@ async def on_message(message):
 	res1 = [ele for ele in commandsay if(ele in mescon)]
 	boolres = bool(res1)
 	if boolres == True:
+		mescon.replace('&', '')
 		await message.delete()
 		await message.channel.send(mescon)
+		listen = False
 	mescon = mescon.lower()
 	data = [mescon]
   	
@@ -304,8 +307,8 @@ async def on_message(message):
 				
 				await add_experience(auth)
 				await level_up(member, auth)
-	
-	await client.process_commands(message)
+	if listen == True:
+		await client.process_commands(message)
 
 
 @client.event

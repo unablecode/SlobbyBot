@@ -299,14 +299,10 @@ async def on_message(message):
 							
 							
 			elif guild1 == "sʞɹoMʎɯnᗡɓıᙠ⚠":
-				with open('bot/users2.json', 'r') as f:
-					users = json.load(f)
-					await update_data(users, message.author)
-					if updatefunc == False:
-						await add_experience(users, message.author, 5)
-						await level_up(users, message.author, message)
-						with open('bot/users2.json', 'w') as f:
-							json.dump(users, f)
+				response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users2','function': 'update_data', 'author': auth})
+				
+				await add_experience(auth)
+				await level_up(member, auth)
 	
 	await client.process_commands(message)
 
@@ -332,7 +328,6 @@ async def add_experience(user):
 
 async def level_up(user, username):
 	response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'level_up', 'author': username})
-	output = response.json()
 	lvl_end = int(output['end'])
 	lvl_start = int(output['start'])
 	if lvl_start < lvl_end:

@@ -4,6 +4,7 @@ import os
 #import dnspython
 import server
 from discord.ext import commands
+import datetime
 import time
 from discord.utils import get
 import requests
@@ -183,7 +184,6 @@ async def unmute(ctx, member: discord.Member):
 
 @client.command()
 async def warn(ctx, member: discord.Member, *, reason):
-	time.sleep(100)
 	role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
 	if role in ctx.author.roles:
 		response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'add_warnings', 'author': str(ctx.author), 'reason':str(reason)})
@@ -200,7 +200,6 @@ async def warn(ctx, member: discord.Member, *, reason):
 
 @client.command()
 async def clearwarnings(ctx, member: discord.Member):
-  time.sleep(100)
   auth = str(ctx.author)
   role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
   if role in ctx.author.roles:
@@ -217,7 +216,6 @@ async def clearwarnings(ctx, member: discord.Member):
 
 @client.command()
 async def checkwarnings(ctx, member: discord.Member):
-  time.sleep(100)
   auth = str(ctx.author)
   mem = str(member)
   response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'checkwarning', 'author': str(member)})
@@ -293,6 +291,7 @@ async def on_message(message):
 			guild1 = str(message.guild.name)
 			if guild1 == "Catgalactic Hangout/Support Server":
 				response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'update_data', 'author': auth})
+				
 				await add_experience(auth)
 				await level_up(member, auth)
 							

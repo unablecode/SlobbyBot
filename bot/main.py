@@ -91,6 +91,7 @@ async def afk_on(ctx):
 
 @client.command()
 async def say(ctx, *, message):
+	await message.delete()
 	await ctx.send(message)
 
 @client.command()

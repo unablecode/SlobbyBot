@@ -61,14 +61,8 @@ async def on_member_join(member):
   	#db[sender_id] = 0
   member = ctx.author
   role_members = discord.utils.get(ctx.guild.roles, name='Level 1')
-  with open('bot/users.json', 'r') as f:
-    users = json.load(f)
-    await update_data(users, member)
-    with open('bot/users.json', 'w') as f:
-      json.dump(users, f)
-      await member.add_roles(role_members)
-      await member.create_dm()
-      await member.dm_channel.send(f'Hi {member.name}, welcome to my Discord server!')
+  await update_data(users, member)
+  
 
   
 
@@ -312,15 +306,8 @@ async def on_member_remove(member: discord.Member):
   print(f'{member} has left a server.')
 
 async def update_data(users, user):
-    if not f'{user.id}' in users:
-        users[f'{user.id}'] = {}
-        users[f'{user.id}']['experience'] = 0
-        users[f'{user.id}']['level'] = 1
-        role = discord.utils.get(user.guild.roles, name="Level 1")
-        previous = discord.utils.get(user.guild.roles, name="Level 1")
-        await user.add_roles(role)
-        updatefunc = True
-
+    response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','update_warnings': 'add_experience', 'author': user})
+    response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','update_data': 'add_experience', 'author': user})
 
 async def add_experience(user):
 	response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'users','function': 'add_experience', 'author': user})

@@ -1,7 +1,7 @@
 from flask import Flask, redirect, url_for, render_template
 from threading import Thread
 
-app = Flask('')
+app = Flask('dashboard')
 
 @app.route('/')
 def main():

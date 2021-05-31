@@ -64,7 +64,8 @@ async def on_member_join(member):
   await update_data(users, member)
   
 
-  
+async def update(ctx):
+	pass
 
 @client.command()
 async def suggest(ctx, *, message):

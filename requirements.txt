@@ -1,6 +1,7 @@
 discord.py
 flask
 python-dotenv
+server
 PyNaCl
 dnspython
 requests

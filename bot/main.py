@@ -204,8 +204,7 @@ async def clearwarnings(ctx, member: discord.Member):
   auth = str(ctx.author)
   role = discord.utils.get(ctx.guild.roles, name='[!]STAFF TEAM')
   if role in ctx.author.roles:
-    response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'clearwarnings', 'author': str(ctx.author)})
-    json_response = response.json()		
+    response = requests.get('https://Test-1.loganpollack.repl.co', params={'file': 'warnings','function': 'clearwarnings', 'author': str(ctx.author)}	
     await member.create_dm()
     await member.dm_channel.send('Your warnings have been cleared!')
     await ctx.send(f'Warnings cleared for {auth}')

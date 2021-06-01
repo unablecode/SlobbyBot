@@ -7,15 +7,6 @@ import json
 #import dnspython
 import server
 updatefunc = False
-bot = commands.Bot(command_prefix='!@import discord
-from discord.ext import commands
-import requests
-import os
-import json
-#import pynacl
-#import dnspython
-import server
-updatefunc = False
 bot = commands.Bot(command_prefix='!p')
 client = discord.Client()
 
